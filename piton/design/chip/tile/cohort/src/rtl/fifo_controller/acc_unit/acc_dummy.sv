@@ -16,11 +16,12 @@ module acc_dummy #(parameter int acc_index = 0) (
 );
 	import fifo_ctrl_pkg::data_t;
 
-	if (acc_index == 0) begin
-		template_top #(
+	if ((acc_index == 0) | (acc_index == 1) | (acc_index == 2) | (acc_index == 3) | (acc_index == 4) | (acc_index == 5)) begin
+		fft_top #(
 			.number_inputs(128),
-			.number_outputs(128)
-		) i_template_top (
+			.number_outputs(128),
+			.stage(acc_index)
+		) i_fft_top (
 			.clk          		(clk          	 ),
 			.rst_n        		(rst_n        	 ),
 			.acc_config   		(acc_config   	 ),

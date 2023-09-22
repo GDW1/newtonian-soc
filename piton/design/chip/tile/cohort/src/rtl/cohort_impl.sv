@@ -1,7 +1,7 @@
 `include "dcp.h"
 
 
-module cohort_impl #(parameter int consumer_num = 2) (
+module cohort_impl #(parameter int consumer_num = 6) (
     input logic clk,
     input logic rst_n,
     config_if.slave conf,

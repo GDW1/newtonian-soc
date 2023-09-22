@@ -36,10 +36,7 @@ src/rtl/adapters/cohort_serdes.sv
 src/rtl/fifo_controller/acc_unit/acc_dummy.sv
 src/rtl/fifo_controller/acc_unit/template_top.sv
 
-src/rtl/fifo_controller/acc_unit/NNHW_aes_core_one.sv
-src/rtl/fifo_controller/acc_unit/NNHW_aes_core_two.sv
-src/rtl/fifo_controller/acc_unit/NNHW_aes_core_three.sv
-src/rtl/fifo_controller/acc_unit/NNHW_FFT.sv
+src/rtl/fifo_controller/acc_unit/fft_top.sv
 
 
 src/rtl/fifo_controller/acc_unit/visc_FFT/fft_64_stage_1_inner.v

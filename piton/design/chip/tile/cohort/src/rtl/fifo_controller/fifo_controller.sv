@@ -42,7 +42,7 @@ module fifo_controller #(parameter int acc_index = 0) (
 		.consumer_head_ptr_o (consumer_head_ptr_o )
 	);
 
-	acc_dummy #(.acc_index(0)) i_acc_dummy (
+	acc_dummy #(.acc_index(acc_index)) i_acc_dummy (
 		.clk                  (clk                  ),
 		.rst_n                (rst_n                ),
 		.acc_config           (acc_config           ),
