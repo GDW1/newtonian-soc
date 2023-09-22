@@ -63,7 +63,7 @@ struct _fifo_ctrl_t {
 // Function Declarations //
 ///////////////////////////
 
-fifo_ctrl_t *fifo_init(uint32_t fifo_length, uint16_t element_size, bool is_consumer, uint8_t c_id);
+fifo_ctrl_t *fifo_init(uint32_t fifo_length, uint16_t element_size, bool is_consumer, uint8_t c_id, uint8_t acc_index);
 void fifo_push_64(uint64_t element, fifo_ctrl_t* fifo_ctrl, uint32_t idx);
 uint64_t fifo_pop_64 (fifo_ctrl_t* fifo_ctrl, uint32_t idx);
 void fifo_push_sync(fifo_ctrl_t* fifo_ctrl, uint32_t idx);
@@ -89,7 +89,7 @@ uint16_t clog2(uint16_t el);
  *@element_size: the size of each element in fifo, in bytes
  *@is_consumer: if it's true, then it is a consumer; otherwise it's a producer. It's used to calculate uncached_write offset. The software producer thread produces into 0-2, the other produces to 3-5
  */
-fifo_ctrl_t *fifo_init(uint32_t fifo_length, uint16_t element_size, bool is_consumer, uint8_t c_id)
+fifo_ctrl_t *fifo_init(uint32_t fifo_length, uint16_t element_size, bool is_consumer, uint8_t c_id, uint8_t acc_index)
 {
     PRINTBT
     // 128 is the cache line width of openpiton

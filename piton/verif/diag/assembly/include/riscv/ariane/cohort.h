@@ -45,10 +45,11 @@ void cohort_print_debug_monitors(c_id_t c_id);
 cohort_t *cohort_init(c_id_t c_id, uint32_t fifo_length, uint16_t element_size)
 {
 	cohort_t  *cohort = (cohort_t *) malloc(sizeof(cohort_t));
+    // FIXME
 	// an external software thread produces into this fifo
-	cohort->sw_producer_fifo = fifo_init(fifo_length, element_size, 0, c_id);
+	cohort->sw_producer_fifo = fifo_init(fifo_length, element_size, 0, c_id, -1);
 	// an external software thread consumes from this fifo
-	cohort->sw_consumer_fifo = fifo_init(fifo_length, element_size, 1, c_id);
+	cohort->sw_consumer_fifo = fifo_init(fifo_length, element_size, 1, c_id, -1);
 
 	cohort->cohort_id = c_id;
 //	cohort->print_perf_monitor = &cohort_print_monitors;

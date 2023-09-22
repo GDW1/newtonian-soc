@@ -38,64 +38,47 @@ module aes_top (
 
 	typedef enum logic [2:0] {S_IDLE, S_CONSUME, S_PUT, S_GET, S_PRODUCE} state_t;
 
-	logic [63:0] data_lower_r, data_lower_n;
-	logic [63:0] data_higher_r, data_higher_n;
+	logic [63:0] data_n;
 
 	state_t state, state_next;
 
-	logic counter_n, counter_r;
+	logic [$clog2(128) - 1 : 0] counter_n, counter_r;
 
-	logic data_valid_in;
-	logic cipherkey_valid_in;
-
-	logic [127:0] plain_text;
+	logic [63:0] data_in [127:0];
 	logic valid_out;
-
-	logic [127:0] cipher_text;
-
-	assign data_valid_in = state == S_PUT;
-	assign cipherkey_valid_in = 1'b1;
-	assign plain_text = {data_higher_r, data_lower_r};
 
 	assign consumer_data.ready = state == S_CONSUME;
 	assign producer_data.valid = state == S_PRODUCE;
-	assign producer_data.data = counter_r == 1'b0 ? data_lower_r : data_higher_r;
+	assign producer_data.data = (state == S_PRODUCE) ? data_in[counter_r] : '0;
 
-	
 	always_ff @(posedge clk or negedge rst_n) begin : proc_state
 		if(~rst_n) begin
 			state <= S_IDLE;
-			data_higher_r <= '0;
-			data_lower_r <= '0;
 			counter_r <= '0;
 		end else begin
 			state <= state_next;
-			data_higher_r <= data_higher_n;
-			data_lower_r <= data_lower_n;
 			counter_r <= counter_n;
+			if (state == S_CONSUME) begin
+				data_in[counter_r] <= data_n;
+			end
 		end
 	end
 	
 	always_comb begin : proc_state_next
 		state_next = state;
-		data_higher_n = data_higher_r;
-		data_lower_n = data_lower_r;
 		counter_n = counter_r;
 		case (state)
 			S_IDLE    : begin
 				if (consumer_data.valid) begin
 					state_next = S_CONSUME;
-					counter_n = 1'b0;
+					counter_n = 0;
 				end
 			end
 			S_CONSUME : begin
 				if (consumer_data.valid & consumer_data.ready) begin
-					counter_n = counter_r + 1'b1;
-					if (counter_r == 1'b0) begin
-						data_lower_n = consumer_data.data;
-					end
-					else begin
-						data_higher_n = consumer_data.data;
+					data_n = consumer_data.data;
+					counter_n = counter_r + 1;
+					if (counter_r == 127) begin
 						state_next = S_PUT;
 					end
 				end
@@ -104,33 +87,23 @@ module aes_top (
 				state_next = S_GET;
 			end
 			S_GET: begin
-				if (valid_out) begin
-					state_next = S_PRODUCE;
-					data_lower_n = cipher_text[63:0];
-					data_higher_n = cipher_text[127:64];
-				end
+				// if (valid_out) begin
+				state_next = S_PRODUCE;
+				// data_lower_n = plain_text[63:0];
+				// data_higher_n = plain_text[127:64];
+				counter_n = 0;
+				// end
 			end
 			S_PRODUCE : begin
 				if (producer_data.valid & producer_data.ready) begin
-					counter_n = counter_r + 1'b1;
-					if (counter_r == 1'b1) begin
+					counter_n = counter_r + 1;
+					if (counter_r == 127) begin
 						state_next = S_IDLE;
 					end
 				end
 			end
 		endcase
 	end	
-
-	Top_PipelinedCipher i_Top_PipelinedCipher (
-		.clk               (clk               ),
-		.reset             (rst_n            ),
-		.data_valid_in     (data_valid_in     ),
-		.cipherkey_valid_in(cipherkey_valid_in),
-		.cipher_key        (acc_config        ),
-		.plain_text        (plain_text        ),
-		.valid_out         (valid_out         ),
-		.cipher_text       (cipher_text       )
-	);
 
 
 

@@ -1,4 +1,4 @@
-GCC=riscv64-buildroot-linux-gnu-gcc
+GCC=/home/guywilks/cohort_benchmarks/rebuild/ariane-sdk-private/buildroot/output/host/bin/riscv64-linux-gcc
 
 DEBUG ?= 0
 COHERENT ?= 0
@@ -18,7 +18,7 @@ endif
 #SRC = dma.c cohort_aes_base.c dma-aes.c dcpn-aes.c cohort_sha_base.c new_aes.c
 #SRC = dma.c    new_aes.c
 #SRC =  stress.c dma-aes.c dma_aes.c dcpn_aes.c aes_baseline.c sha_baseline.c
-SRC = cohort_aes_base.c dcpn_aes.c dma_aes.c
+SRC = cohort_template_base.c
 #EXECUTABLE := $(patsubst %.c,%,$(SRC))
 EXECUTABLE := $(patsubst %.c,%,$(SRC))
 
@@ -43,8 +43,8 @@ WAIT_COUNTERS = 16
 
 AES_ITERS = 1 2 4 8 16 32 64 128 256 512 1024
 
-GCC_OPTS += -DNO_DRIVER=1
-# GCC_OPTS += -DDRIVER_EVALS=1
+# GCC_OPTS += -DNO_DRIVER=1
+GCC_OPTS += -DDRIVER_EVALS=1
 
 .PHONY: all clean
 

@@ -617,6 +617,8 @@ set CHIP_RTL_IMPL_FILES [list \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/adapters/cohort_serdes.sv " \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/acc_dummy.sv " \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/aes_top.sv " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/template_top.sv " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/NNHW_FFT.sv" \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/sha256_custom_top.sv " \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/load_unit/noc3_to_resp_adapter.sv " \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/load_unit/fifo_mshr_hub.sv " \
@@ -630,10 +632,35 @@ set CHIP_RTL_IMPL_FILES [list \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/coherency_units/wo_coherency_manager.sv " \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/coherency_units/coherency_manager_top.sv " \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/cohort_impl.sv " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/if/data_forward_if.sv " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/aes_core_top.sv " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/NNHW_aes_core_one.sv " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/NNHW_aes_core_two.sv " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/NNHW_aes_core_three.sv " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/AES-Core/AES_main.v " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/AES-Core/AES_Stage_one.sv " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/AES-Core/AES_Stage_two.sv " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/AES-Core/AES_Stage_three.sv " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_AES/AES_Stage_one.sv " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_AES/AES_Stage_two.sv " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_AES/AES_Stage_three.sv " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_AES/key_expansion_inner.v " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_AES/lastround.v " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_AES/round.v " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_AES/shift_rows_inner.v " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_AES/sub_bytes_inner.v " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_AES/mix_columns_inner.v " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_FFT/fft_64_stage_1_inner.v"\
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_FFT/fft_64_stage_2_inner.v"\
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_FFT/fft_64_stage_3_inner.v"\
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_FFT/fft_64_stage_4_inner.v"\
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_FFT/fft_64_stage_5_inner.v"\
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_FFT/fft_64_stage_6_inner.v"\
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/consumer_unit/consumer_load_transaction_generator.sv " \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/consumer_unit/consumer_unit_top.sv " \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/mshr_unit/mshr_consumer_unit_top.sv " \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/mshr_unit/mshr_tri_unit.sv " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/mshr_unit/mshr_noc_unit.sv " \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/producer_unit/producer_transaction_generator.sv " \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/producer_unit/producer_unit_top.sv " \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/uncached_configuration_unit.sv " \
