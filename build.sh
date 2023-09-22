@@ -1,0 +1,1 @@
+sims -sys=manycore -ariane -decoupling -config_rtl="MINIMAL_MONITORING" -vcs_build -x_tiles=2 -y_tiles=2  -vcs_build_args="-full64 -debug_access+all -kdb -lca -LDFLAGS -rdynamic -P ${VERDI_HOME}/share/PLI/VCS/LINUX64/novas.tab ${VERDI_HOME}/share/PLI/VCS/LINUX64/pli.a" -vcs_build_args="-LDFLAGS -Wl,--no-as-needed"
