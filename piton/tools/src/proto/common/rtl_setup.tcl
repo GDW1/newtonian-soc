@@ -616,7 +616,7 @@ set CHIP_RTL_IMPL_FILES [list \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/perf/generic_perf_counter.sv " \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/adapters/cohort_serdes.sv " \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/acc_dummy.sv " \
-    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/aes_top.sv " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/fft_top.sv " \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/template_top.sv " \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/NNHW_FFT.sv" \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/sha256_custom_top.sv " \

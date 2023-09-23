@@ -18,7 +18,7 @@ endif
 #SRC = dma.c cohort_aes_base.c dma-aes.c dcpn-aes.c cohort_sha_base.c new_aes.c
 #SRC = dma.c    new_aes.c
 #SRC =  stress.c dma-aes.c dma_aes.c dcpn_aes.c aes_baseline.c sha_baseline.c
-SRC = cohort_template_base.c
+SRC = cohort_fft_base.c
 #EXECUTABLE := $(patsubst %.c,%,$(SRC))
 EXECUTABLE := $(patsubst %.c,%,$(SRC))
 

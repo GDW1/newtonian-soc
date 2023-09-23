@@ -137,11 +137,13 @@ module fft_top #(parameter int number_inputs = 128, parameter int number_outputs
 	generate
 	genvar i;
 	for (i = 0; i < number_inputs; i++) begin // assign fft_real_in to lower 32 bits of data_in[i] and fft_imag_in to upper 32 bits of data_in[i]
-		assign fft_real_in[i * 32 +: 32] = data_in[i][31:0];
-		assign fft_imag_in[i * 32 +: 32] = data_in[i][63:32];
-
-		assign data_out[i][31:0] = fft_real_out[i * 32 +: 32];
-		assign data_out[i][63:32] = fft_imag_out[i * 32 +: 32];
+		if (i < 64) begin
+			assign fft_real_in[i * 32 +: 32] = data_in[i][31:0];
+			assign data_out[i] = fft_real_out[i * 32 +: 32];
+		end else begin
+			assign fft_imag_in[(i - 64) * 32 +: 32] = data_in[i][31:0];
+			assign data_out[i] = fft_imag_out[(i - 64) * 32 +: 32];
+		end
 	end
 	endgenerate
 
