@@ -90,7 +90,7 @@ key_expansion_inner a0(
     .o_keys_out_lower(o_keys_out_lower)
 );
 
-assign key_s = {o_keys_out_higher[63:0]   , o_keys_out_lower[63:0]    };
+assign key_s =  {o_keys_out_higher[63:0]   , o_keys_out_lower[63:0]   };
 assign key_s0 = {o_keys_out_higher[127:64] , o_keys_out_lower[127:64] };
 assign key_s1 = {o_keys_out_higher[191:128], o_keys_out_lower[191:128]};
 assign key_s2 = {o_keys_out_higher[255:192], o_keys_out_lower[255:192]};

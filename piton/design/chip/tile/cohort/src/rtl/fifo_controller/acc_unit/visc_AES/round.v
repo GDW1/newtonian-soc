@@ -27,8 +27,8 @@ shift_rows_inner a2(
 mix_columns_inner a3(
     .clk(clk),
     .rst(1'b0),
-    .i_data_higher(sub_data_out[127:64]),
-    .i_data_lower(sub_data_out[63:0]),
+    .i_data_higher(shift_data_out[127:64]),
+    .i_data_lower(shift_data_out[63:0]),
     .o_data_out_higher(mix_data_out[127:64]),
     .o_data_out_lower(mix_data_out[63:0])
 );

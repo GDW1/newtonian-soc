@@ -1,7 +1,7 @@
 `include "dcp.h"
 
 
-module cohort_impl #(parameter int consumer_num = 6) (
+module cohort_impl #(parameter int consumer_num = 3) (
     input logic clk,
     input logic rst_n,
     config_if.slave conf,
@@ -59,7 +59,7 @@ module cohort_impl #(parameter int consumer_num = 6) (
 
     // if we have i consumers, were going to want i - 1 data forwarding paths
     // Assume that the ith consumer is forwarding to the (i+1)th consumer
-    data_forward_if #(.data_width(64), .vector_size(128)) data_forward [consumer_num:0] ();
+    data_forward_if #(.data_width(64), .vector_size(18)) data_forward [consumer_num:0] ();
 
     generate
 	  for (genvar i = 0; i < consumer_num; i++) begin

@@ -16,12 +16,10 @@ module acc_dummy #(parameter int acc_index = 0) (
 );
 	import fifo_ctrl_pkg::data_t;
 
-	if ((acc_index == 0) | (acc_index == 1) | (acc_index == 2) | (acc_index == 3) | (acc_index == 4) | (acc_index == 5)) begin
-		fft_top #(
-			.number_inputs(128),
-			.number_outputs(128),
+	if ((acc_index == 0) | (acc_index == 1) | (acc_index == 2)) begin
+		aes_top_wrapper #(
 			.stage(acc_index)
-		) i_fft_top (
+		) aes_top_wrapper (
 			.clk          		(clk          	 ),
 			.rst_n        		(rst_n        	 ),
 			.acc_config   		(acc_config   	 ),
