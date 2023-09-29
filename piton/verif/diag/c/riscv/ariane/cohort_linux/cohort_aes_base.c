@@ -43,9 +43,9 @@
 
 #define NUM_WORDS 32
 
-#define NUM_QUEUES 3
+#define NUM_QUEUES 11
 
-#define BATCH_SIZE 18
+#define BATCH_SIZE 22
 
 
 extern uint64_t back_off_count;
@@ -81,7 +81,7 @@ uint64_t keys_out_lower[11];
 };
 
 typedef struct _key_expansion_output key_expansion_output;
-key_expansion_output key_expansion(uint64_t key_higher, uint64_t key_lower) {
+ key_expansion_output key_expansion(uint64_t key_higher, uint64_t key_lower) {
 	uint64_t keys_out_higher[11];
 	uint64_t keys_out_lower[11];
 	// Combinational function
@@ -1363,7 +1363,7 @@ shift_rows_output shift_rows(uint64_t higher_bits, uint64_t lower_bits) {
 	return output;
 }
 
-add_round_key_output round (uint64_t data_in_lower, uint64_t data_in_higher, uint64_t key_lower, uint64_t key_higher) {
+add_round_key_output round_stage (uint64_t data_in_lower, uint64_t data_in_higher, uint64_t key_lower, uint64_t key_higher) {
 	// printf("key: 0x%lx_%lx\n", key_higher, key_lower);
 	sub_bytes_output sub_bytes_out = sub_bytes(data_in_higher, data_in_lower);
 	// printf("sub_bytes_out: 0x%lx_%lx\n", sub_bytes_out.higher_out, sub_bytes_out.lower_out);
@@ -1383,86 +1383,6 @@ add_round_key_output last_round (uint64_t data_in_lower, uint64_t data_in_higher
 	// printf("shift_rows_out: 0x%lx_%lx\n", shift_rows_out.data_out_higher, shift_rows_out.data_out_lower);
 	add_round_key_output add_round_key_out = add_round_key(shift_rows_out.data_out_lower, shift_rows_out.data_out_higher, key_lower, key_higher);
 	return add_round_key_out;
-}
-
-struct _stage_0_output {
-	uint64_t data_out_higher;
-	uint64_t data_out_lower;
-	key_expansion_output key_expansion_out;
-};
-
-typedef struct _stage_0_output stage_0_output;
-stage_0_output stage_0(uint64_t data_in_lower, uint64_t data_in_higher, uint64_t key_lower, uint64_t key_higher) {
-	key_expansion_output key_expansion_out = key_expansion(key_higher, key_lower);
-	// for (int i = 0; i < 11; i++) {
-	// 	printf("k_%d =  0x%lx_%lx\n", i, key_expansion_out.keys_out_higher[i], key_expansion_out.keys_out_lower[i]);
-	// }
-	add_round_key_output add_round_key_out = add_round_key(data_in_lower, data_in_higher, key_expansion_out.keys_out_lower[0], key_expansion_out.keys_out_higher[0]);
-	// printf("add_round_key_out: 0x%lx_%lx\n", add_round_key_out.data_out_higher, add_round_key_out.data_out_lower);
-	// round 1
-	add_round_key_output add_key_out_1 = round(add_round_key_out.data_out_lower, add_round_key_out.data_out_higher, key_expansion_out.keys_out_lower[1], key_expansion_out.keys_out_higher[1]);
-	// printf("data_out: 0x%lx_%lx\n", add_key_out_1.data_out_higher, add_key_out_1.data_out_lower);
-
-	// round 2
-	add_round_key_output add_key_out_2 = round(add_key_out_1.data_out_lower, add_key_out_1.data_out_higher, key_expansion_out.keys_out_lower[2], key_expansion_out.keys_out_higher[2]);
-	// printf("data_out: 0x%lx_%lx\n", add_key_out_2.data_out_higher, add_key_out_2.data_out_lower);
-
-	stage_0_output output;
-	output.data_out_lower = add_key_out_2.data_out_lower;
-	output.data_out_higher = add_key_out_2.data_out_higher;
-	output.key_expansion_out = key_expansion_out;
-
-	return output;
-}
-
-stage_0_output stage_1 (uint64_t data_in_lower, uint64_t data_in_higher, key_expansion_output key_expansion_out) {
-	// round 3
-	add_round_key_output add_key_out_1 = round(data_in_lower, data_in_higher, key_expansion_out.keys_out_lower[3], key_expansion_out.keys_out_higher[3]);
-	// printf("data_out: 0x%lx_%lx\n", add_key_out_1.data_out_higher, add_key_out_1.data_out_lower);
-
-	// round 4
-	add_round_key_output add_key_out_2 = round(add_key_out_1.data_out_lower, add_key_out_1.data_out_higher, key_expansion_out.keys_out_lower[4], key_expansion_out.keys_out_higher[4]);
-	// printf("data_out: 0x%lx_%lx\n", add_key_out_2.data_out_higher, add_key_out_2.data_out_lower);
-
-	// round 5
-	add_round_key_output add_key_out_3 = round(add_key_out_2.data_out_lower, add_key_out_2.data_out_higher, key_expansion_out.keys_out_lower[5], key_expansion_out.keys_out_higher[5]);
-	// printf("data_out: 0x%lx_%lx\n", add_key_out_3.data_out_higher, add_key_out_3.data_out_lower);
-
-	// round 6
-	add_round_key_output add_key_out_4 = round(add_key_out_3.data_out_lower, add_key_out_3.data_out_higher, key_expansion_out.keys_out_lower[6], key_expansion_out.keys_out_higher[6]);
-	// printf("data_out: 0x%lx_%lx\n", add_key_out_4.data_out_higher, add_key_out_4.data_out_lower);
-
-	stage_0_output output;
-	output.data_out_lower = add_key_out_4.data_out_lower;
-	output.data_out_higher = add_key_out_4.data_out_higher;
-	output.key_expansion_out = key_expansion_out;
-
-	return output;
-}
-
-stage_0_output stage_2 (uint64_t data_in_lower, uint64_t data_in_higher, key_expansion_output key_expansion_out) {
-	// round 3
-	add_round_key_output add_key_out_5 = round(data_in_lower, data_in_higher, key_expansion_out.keys_out_lower[7], key_expansion_out.keys_out_higher[7]);
-	// printf("data_out: 0x%lx_%lx\n", add_key_out_5.data_out_higher, add_key_out_5.data_out_lower);
-
-	// round 4
-	add_round_key_output add_key_out_6 = round(add_key_out_5.data_out_lower, add_key_out_5.data_out_higher, key_expansion_out.keys_out_lower[8], key_expansion_out.keys_out_higher[8]);
-	// printf("data_out: 0x%lx_%lx\n", add_key_out_6.data_out_higher, add_key_out_6.data_out_lower);
-
-	// round 5
-	add_round_key_output add_key_out_7 = round(add_key_out_6.data_out_lower, add_key_out_6.data_out_higher, key_expansion_out.keys_out_lower[9], key_expansion_out.keys_out_higher[9]);
-	// printf("data_out: 0x%lx_%lx\n", add_key_out_7.data_out_higher, add_key_out_7.data_out_lower);
-
-	// round 6
-	add_round_key_output add_key_out_8 = last_round(add_key_out_7.data_out_lower, add_key_out_7.data_out_higher, key_expansion_out.keys_out_lower[10], key_expansion_out.keys_out_higher[10]);
-	// printf("data_out: 0x%lx_%lx\n", add_key_out_8.data_out_higher, add_key_out_8.data_out_lower);
-
-	stage_0_output output;
-	output.data_out_lower = add_key_out_8.data_out_lower;
-	output.data_out_higher = add_key_out_8.data_out_higher;
-	output.key_expansion_out = key_expansion_out;
-
-	return output;
 }
 
 void _kernel_(uint32_t id, uint32_t core_num){
@@ -1584,9 +1504,9 @@ int main(int argc, char ** argv) {
 
     void *acc_address = memalign(128, 128);
     memset(acc_address, 0, 128);
-
-    uint64_t bypass[NUM_QUEUES] = {0b00, 0b10, 0b01};
-    bool active[NUM_QUEUES] =     {false, true, true};
+    // 								Key   r0    r1   r2    r3    r4    r5    r6    r7    r8     l_r
+    uint64_t bypass[NUM_QUEUES] = {0b10, 0b00, 0b00, 0b01, 0b00, 0b10, 0b00, 0b00, 0b00, 0b00, 0b01};
+    bool active[NUM_QUEUES] =     {true, true, true, true, false, true, true, true, true, true, true};
 #ifdef NO_DRIVER
     for (int i = 0; i < NUM_QUEUES; i++) {
         baremetal_write(0, 6 + (8 * i), (uint64_t) acc_address);
@@ -1625,7 +1545,6 @@ int main(int argc, char ** argv) {
 	dec_open_consumer(0);
 
 
-	// Push data
     if (active[0]) {
         if ((bypass[0] & 0x02) == 0x02) {
             // printf("Stage 0 push\n");
@@ -1641,133 +1560,74 @@ int main(int argc, char ** argv) {
             // printf("Stage 0 pop\n");
             for (int i = 0; i < BATCH_SIZE; i++) {
                 temp[i] = fifo_pop_64(cohort_to_sw_fifo[0], i);
+				// printf("temp[%d] = 0x%lx\n", i, temp[i]);
             }
 
             fifo_pop_sync(cohort_to_sw_fifo[0], BATCH_SIZE);
         }
     } else {
-        // use the SW version
-        // take temp and run it through stage_0
-		// printf("Stage 0 SW\n");
-
-		stage_0_output stage_0_out = stage_0(temp[1], temp[0], temp[3], temp[2]);
-
-		// marshall the data
-		temp[0] = stage_0_out.data_out_lower;
-		temp[1] = stage_0_out.data_out_higher;
-
-		for (int i = 1; i < 9; i++) { // we want keys  2 - 10
-			temp[ i * 2	  ] = stage_0_out.key_expansion_out.keys_out_lower[i + 2];
-			temp[(i * 2) + 1] = stage_0_out.key_expansion_out.keys_out_higher[i + 2];
+		key_expansion_output key_expansion_out = key_expansion(temp[2], temp[3]);
+		// add round key
+		// temp 0 should be data_out_lower
+		// temp 1 should be data_out_higher
+		add_round_key_output add_round_key_out = add_round_key(temp[1], temp[0], key_expansion_out.keys_out_lower[0], key_expansion_out.keys_out_higher[0]);
+		temp[0] = add_round_key_out.data_out_lower;
+		temp[1] = add_round_key_out.data_out_higher;
+		for (int i = 1; i < 11; i++) {
+			temp[(i * 2) + 1] = key_expansion_out.keys_out_higher[i];
+			temp[i * 2] = key_expansion_out.keys_out_lower[i];
 		}
     }
 
+	// // print keys
+	// for (int i = 0; i < 11; i++) {
+	// 	printf("key[%d]: 0x%lx_%lx\n", i, temp[(i * 2) + 1], temp[i * 2]);
+	// }
 
-    // Push data
-    if (active[1]) {
-        if ((bypass[1] & 0x02) == 0x02) {
-            // printf("Stage 1 push\n");
-            // push 18 values
-            for (int i = 0; i < BATCH_SIZE; i++) {
-                fifo_push_64(temp[i], sw_to_cohort_fifo[1], i);
-            }
+	for (int i = 1; i < NUM_QUEUES; i++) {
+		if (active[i]) {
+			if ((bypass[i] & 0x02) == 0x02) {
+				// printf("Stage %d push\n", i);
+				for (int j = 0; j < BATCH_SIZE; j++) {
+					fifo_push_64(temp[j], sw_to_cohort_fifo[i], j);
+				}
 
-            fifo_push_sync(sw_to_cohort_fifo[1], BATCH_SIZE);
-        }
+				fifo_push_sync(sw_to_cohort_fifo[i], BATCH_SIZE);
+			}
 
-        if ((bypass[1] & 0x01) == 0x01) {
-            // printf ("Stage 1 pop\n");
-            for (int i = 0; i < 10; i++) {
-                temp[i] = fifo_pop_64(cohort_to_sw_fifo[1], i);
-            }
+			if ((bypass[i] & 0x01) == 0x01) {
+				// printf("Stage %d pop\n", i);
+				for (int j = 0; j < BATCH_SIZE; j++) {
+					temp[j] = fifo_pop_64(cohort_to_sw_fifo[i], j);
+					// printf("temp[%d] = 0x%lx\n", j, temp[j]);
+				}
 
-            fifo_pop_sync(cohort_to_sw_fifo[1], 10);
-        }
-    } else {
-		// use the SW version
-        // take temp and run it through stage_0
-		// unmarshall temp into stage_0_input
-		key_expansion_output key_expansion_input;
-		// start at i = 7
-		for (int i = 3; i < 11; i++) {
-			key_expansion_input.keys_out_higher[i] = temp[((i - 2) * 2) + 1];
-			key_expansion_input.keys_out_lower[i] = temp[((i - 2) * 2)];
+				fifo_pop_sync(cohort_to_sw_fifo[i], BATCH_SIZE);
+			}
+
+			// printf("data_out: 0x%lx_%lx\n", temp[1], temp[0]);
+		} else {
+			// printf("Stage %d SW\n", i);
+			uint64_t data_in_lower = temp[0];
+			uint64_t data_in_higher = temp[1];
+
+			uint64_t key_lower = temp[(i * 2)];
+			uint64_t key_higher = temp[(i * 2) + 1];
+
+			// printf("using key: 0x%lx_%lx\n", key_higher, key_lower);
+
+			// call round
+			add_round_key_output add_round_key_out = round_stage(data_in_lower, data_in_higher, key_lower, key_higher);
+
+			temp[0] = add_round_key_out.data_out_lower;
+			temp[1] = add_round_key_out.data_out_higher;
+
+			// printf("data_out: 0x%lx_%lx\n", temp[1], temp[0]);
 		}
+	}
 
-		// // print out the keys
-		// for (int i = 0; i < 11; i++) {
-		// 	printf("k_%d =  0x%lx_%lx\n", i, key_expansion_input.keys_out_higher[i], key_expansion_input.keys_out_lower[i]);
-		// }
 
-		stage_0_output stage_1_out = stage_1(temp[0], temp[1], key_expansion_input);
 
-		// marshall the data
-		temp[0] = stage_1_out.data_out_lower;
-		temp[1] = stage_1_out.data_out_higher;
-
-		for (int i = 1; i < 9; i++) { // we want keys  2 - 10
-			temp[ i * 2	  ] = stage_1_out.key_expansion_out.keys_out_lower[i + 6];
-			temp[(i * 2) + 1] = stage_1_out.key_expansion_out.keys_out_higher[i + 6];
-		}
-		// use the SW version
-		// take temp and run it through stage_1
-		// printf("Stage 1 SW\n");
-    }
-
-    // Stage 2
-    if (active[2]) {
-        // Push data
-        if ((bypass[2] & 0x02) == 0x02) {
-            // printf("Stage 2 push\n");
-            // push 18 values
-            for (int i = 0; i < 10; i++) {
-                fifo_push_64(temp[i], sw_to_cohort_fifo[2], i);
-            }
-
-            fifo_push_sync(sw_to_cohort_fifo[2], 10);
-        }
-
-        if ((bypass[2] & 0x01) == 0x01) {
-            // printf("Stage 2 pop\n");
-            for (int i = 0; i < 2; i++) {
-                temp[i] = fifo_pop_64(cohort_to_sw_fifo[2], i);
-            }
-
-            fifo_pop_sync(cohort_to_sw_fifo[2], 2);
-        }
-    } else {
-		// use the SW version
-		// take temp and run it through stage_2
-		// use the SW version
-        // take temp and run it through stage_0
-		// unmarshall temp into stage_0_input
-		key_expansion_output key_expansion_input;
-		// start at i = 7
-		for (int i = 7; i < 11; i++) {
-			key_expansion_input.keys_out_higher[i] = temp[((i - 6) * 2) + 1];
-			key_expansion_input.keys_out_lower[i] = temp[((i - 6) * 2)];
-		}
-
-		// // print out the keys
-		// for (int i = 0; i < 11; i++) {
-		// 	printf("k_%d =  0x%lx_%lx\n", i, key_expansion_input.keys_out_higher[i], key_expansion_input.keys_out_lower[i]);
-		// }
-
-		stage_0_output stage_2_out = stage_2(temp[0], temp[1], key_expansion_input);
-
-		// marshall the data
-		temp[0] = stage_2_out.data_out_lower;
-		temp[1] = stage_2_out.data_out_higher;
-
-		// use the SW version
-		// take temp and run it through stage_1
-		// printf("Stage 2 SW\n");
-		
-    }
-    /*
-        END PUSH DATA
-    */
-    
 	dec_close_producer(0);
 	dec_close_consumer(0);
     

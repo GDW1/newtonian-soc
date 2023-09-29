@@ -16,7 +16,7 @@ module acc_dummy #(parameter int acc_index = 0) (
 );
 	import fifo_ctrl_pkg::data_t;
 
-	if ((acc_index == 0) | (acc_index == 1) | (acc_index == 2)) begin
+	if (acc_index < 12) begin
 		aes_top_wrapper #(
 			.stage(acc_index)
 		) aes_top_wrapper (

@@ -15,7 +15,7 @@ generate
     if (stage == 0) begin : stage_0
         aes_top #(
             .number_inputs (4),
-            .number_outputs(18),
+            .number_outputs(22),
             .stage(0)
         )aes_top_inst (
             .clk(clk),
@@ -27,11 +27,11 @@ generate
             .data_forward_out(data_forward_out),
             .bypass_control(bypass_control)
         );
-    end else if (stage == 1) begin : stage_1
+    end else if (0 < stage < 10) begin : stage_1
         aes_top #(
-            .number_inputs (18),
-            .number_outputs(10),
-            .stage(1)
+            .number_inputs (22),
+            .number_outputs(22),
+            .stage(stage)
         )aes_top_inst (
             .clk(clk),
             .rst_n(rst_n),
@@ -42,11 +42,11 @@ generate
             .data_forward_out(data_forward_out),
             .bypass_control(bypass_control)
         );
-    end else if (stage == 2) begin : stage_2
+    end else if (stage == 10) begin : stage_2
         aes_top #(
-            .number_inputs (10),
-            .number_outputs(2),
-            .stage(2)
+            .number_inputs (22),
+            .number_outputs(22),
+            .stage(10)
         )aes_top_inst (
             .clk(clk),
             .rst_n(rst_n),
