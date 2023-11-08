@@ -46,6 +46,27 @@ src/rtl/fifo_controller/acc_unit/visc_FFT/fft_64_stage_4_inner.v
 src/rtl/fifo_controller/acc_unit/visc_FFT/fft_64_stage_5_inner.v
 src/rtl/fifo_controller/acc_unit/visc_FFT/fft_64_stage_6_inner.v
 
+src/rtl/fifo_controller/acc_unit/dct8_top.sv
+
+src/rtl/fifo_controller/acc_unit/visc_DCT/dct_8_stage_1_inner.v
+src/rtl/fifo_controller/acc_unit/visc_DCT/dct_8_stage_2_inner.v
+src/rtl/fifo_controller/acc_unit/visc_DCT/dct_8_stage_3_inner.v
+src/rtl/fifo_controller/acc_unit/visc_DCT/dct_8_stage_4_inner.v
+src/rtl/fifo_controller/acc_unit/visc_DCT/dct_8_stage_5_inner.v
+
+src/rtl/fifo_controller/acc_unit/dct8x8_top.sv
+
+src/rtl/fifo_controller/acc_unit/visc_DCT8x8/dct_8x8_stage_1_inner.v
+src/rtl/fifo_controller/acc_unit/visc_DCT8x8/dct_8x8_stage_2_inner.v
+src/rtl/fifo_controller/acc_unit/visc_DCT8x8/dct_8x8_stage_3_inner.v
+src/rtl/fifo_controller/acc_unit/visc_DCT8x8/dct_8x8_stage_4_inner.v
+src/rtl/fifo_controller/acc_unit/visc_DCT8x8/dct_8x8_stage_5_inner.v
+src/rtl/fifo_controller/acc_unit/visc_DCT8x8/dct_8x8_stage_6_inner.v
+src/rtl/fifo_controller/acc_unit/visc_DCT8x8/dct_8x8_stage_7_inner.v
+src/rtl/fifo_controller/acc_unit/visc_DCT8x8/dct_8x8_stage_8_inner.v
+src/rtl/fifo_controller/acc_unit/visc_DCT8x8/dct_8x8_stage_9_inner.v
+src/rtl/fifo_controller/acc_unit/visc_DCT8x8/dct_8x8_stage_10_inner.v
+
 src/rtl/fifo_controller/acc_unit/visc_AES/key_expansion_inner.v
 src/rtl/fifo_controller/acc_unit/visc_AES/lastround.v
 src/rtl/fifo_controller/acc_unit/visc_AES/round.v

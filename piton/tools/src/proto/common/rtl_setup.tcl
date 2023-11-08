@@ -617,6 +617,8 @@ set CHIP_RTL_IMPL_FILES [list \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/adapters/cohort_serdes.sv " \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/acc_dummy.sv " \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/fft_top.sv " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/dct8_top.sv " \
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/dct8x8_top.sv " \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/template_top.sv " \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/NNHW_FFT.sv" \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/sha256_custom_top.sv " \
@@ -656,6 +658,21 @@ set CHIP_RTL_IMPL_FILES [list \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_FFT/fft_64_stage_4_inner.v"\
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_FFT/fft_64_stage_5_inner.v"\
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_FFT/fft_64_stage_6_inner.v"\
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_DCT/dct_8_stage_1_inner.v"\
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_DCT/dct_8_stage_2_inner.v"\
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_DCT/dct_8_stage_3_inner.v"\
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_DCT/dct_8_stage_4_inner.v"\
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_DCT/dct_8_stage_5_inner.v"\
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_DCT8x8/dct_8x8_stage_1_inner.v"\
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_DCT8x8/dct_8x8_stage_2_inner.v"\
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_DCT8x8/dct_8x8_stage_3_inner.v"\
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_DCT8x8/dct_8x8_stage_4_inner.v"\
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_DCT8x8/dct_8x8_stage_5_inner.v"\
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_DCT8x8/dct_8x8_stage_6_inner.v"\
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_DCT8x8/dct_8x8_stage_7_inner.v"\
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_DCT8x8/dct_8x8_stage_8_inner.v"\
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_DCT8x8/dct_8x8_stage_9_inner.v"\
+    "${DV_ROOT}/design/chip/tile/cohort/src/rtl/fifo_controller/acc_unit/visc_DCT8x8/dct_8x8_stage_10_inner.v"\
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/consumer_unit/consumer_load_transaction_generator.sv " \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/consumer_unit/consumer_unit_top.sv " \
     "${DV_ROOT}/design/chip/tile/cohort/src/rtl/mshr_unit/mshr_consumer_unit_top.sv " \

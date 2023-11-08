@@ -16,12 +16,40 @@ module acc_dummy #(parameter int acc_index = 0) (
 );
 	import fifo_ctrl_pkg::data_t;
 
-	if ((acc_index == 0) | (acc_index == 1) | (acc_index == 2) | (acc_index == 3) | (acc_index == 4) | (acc_index == 5)) begin
-		fft_top #(
-			.number_inputs(128),
-			.number_outputs(128),
+	if ((acc_index == 0) | (acc_index == 1) | (acc_index == 2) | (acc_index == 3) | (acc_index == 4) | (acc_index == 5) | (acc_index == 6) | (acc_index == 7) | (acc_index == 8) | (acc_index == 9)) begin
+		// fft_top #(
+		// 	.number_inputs(128),
+		// 	.number_outputs(128),
+		// 	.stage(acc_index)
+		// ) i_fft_top (
+		// 	.clk          		(clk          	 ),
+		// 	.rst_n        		(rst_n        	 ),
+		// 	.acc_config   		(acc_config   	 ),
+		// 	.consumer_data		(consumer_data	 ),
+		// 	.producer_data		(producer_data	 ),
+		// 	.data_forward_in	(data_forward_in ),
+		// 	.data_forward_out	(data_forward_out),
+		// 	.bypass_control		(bypass_control  )
+		// );
+		// dct8_top #(
+		// 	.number_inputs(8),
+		// 	.number_outputs(8),
+		// 	.stage(acc_index)
+		// ) i_dct8_top (
+		// 	.clk          		(clk          	 ),
+		// 	.rst_n        		(rst_n        	 ),
+		// 	.acc_config   		(acc_config   	 ),
+		// 	.consumer_data		(consumer_data	 ),
+		// 	.producer_data		(producer_data	 ),
+		// 	.data_forward_in	(data_forward_in ),
+		// 	.data_forward_out	(data_forward_out),
+		// 	.bypass_control		(bypass_control  )
+		// );
+		dct8x8_top #(
+			.number_inputs(64),
+			.number_outputs(64),
 			.stage(acc_index)
-		) i_fft_top (
+		) i_dct8x8_top (
 			.clk          		(clk          	 ),
 			.rst_n        		(rst_n        	 ),
 			.acc_config   		(acc_config   	 ),

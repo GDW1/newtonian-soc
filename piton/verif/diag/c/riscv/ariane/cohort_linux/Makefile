@@ -18,7 +18,8 @@ endif
 #SRC = dma.c cohort_aes_base.c dma-aes.c dcpn-aes.c cohort_sha_base.c new_aes.c
 #SRC = dma.c    new_aes.c
 #SRC =  stress.c dma-aes.c dma_aes.c dcpn_aes.c aes_baseline.c sha_baseline.c
-SRC = cohort_fft_base.c
+#SRC = cohort_fft_base.c
+SRC = cohort_dct_base.c
 #EXECUTABLE := $(patsubst %.c,%,$(SRC))
 EXECUTABLE := $(patsubst %.c,%,$(SRC))
 
@@ -54,9 +55,14 @@ all: $(EXECUTABLE)
 	$(GCC) $(GCC_OPTS) -I$(PITON_ROOT)/piton/verif/diag/assembly/include/riscv/ariane/ $< -o build/$@
 
 # benchmarks that uses an accelerator
+
 cohort_benchmarks:
 	 @mkdir -p build
 	 $(foreach var,$(NUMBERS), $(foreach loop_time,$(LOOP_NUMBERS), $(foreach backoff_time,$(BACKOFF_NUM), $(foreach wait_time,$(WAIT_COUNTERS), $(foreach batch,$(BATCH_SIZES),  $(GCC) $(GCC_OPTS) -I$(PITON_ROOT)/piton/verif/diag/assembly/include/riscv/ariane/ -DLOOP_NUM=$(loop_time) -DBACKOFF_COUNTER_VAL=$(backoff_time) -DWAIT_COUNTER_VAL=$(wait_time) -DFIFO_SIZE=$(var) -DBATCH_SIZE=$(batch) cohort_aes_base.c -o build/cohort_aes_base_$(loop_time)_$(backoff_time)_$(wait_time)_$(var)_$(batch) ;)))))
+
+dct_benchmarks:
+	 @mkdir -p build
+	 $(GCC) $(GCC_OPTS) -I$(PITON_ROOT)/piton/verif/diag/assembly/include/riscv/ariane/ cohort_dct8x8_base.c -o build/cohort_dct8x8_base;
 
 h264_benchmarks:
 	 @mkdir -p build
